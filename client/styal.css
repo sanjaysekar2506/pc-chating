@@ -1,0 +1,403 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('./imgs/smiling-caucasian-man-showing-empty-smartphone-screen-pointing-mobile-phone-looking-satisf.jpg') no-repeat center center/cover;
+    margin: 0;
+    flex-direction: column;
+}
+
+.chat-header {
+    width: 850px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+.chat-container {
+    display: flex;
+    gap: 30px;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+.chat-box {
+    width: 500px;
+    height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #ffffff;
+    border-bottom: 1px solid #ccc;
+}
+/* .message {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 75%;
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    position: relative;
+} */
+.user1 {
+    background: #dcf8c6;
+    align-self: flex-start;
+}
+.user2 {
+    background: #e6e6e6;
+    align-self: flex-end;
+}
+img {
+    max-width: 100%;
+    border-radius: 5px;
+    display: block;
+}
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background: #f9f9f9;
+    align-items: center;
+    gap: 10px;
+}
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+}
+.file-upload {
+    position: relative;
+    cursor: pointer;
+}
+.file-upload input {
+    position: absolute;
+    opacity: 0;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.file-upload label {
+    font-size: 20px;
+    cursor: pointer;
+}
+.chat-input button {
+    padding: 10px 15px;
+    border: none;
+    background: #25d366;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.chat-input button:hover {
+    background: #0056b3;
+}
+
+
+/* gpt */
+ /* Chat Container */
+ .chat-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-right: 450px ;
+}
+
+/* Chat Box */
+.chat-box {
+    width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat Header */
+.chat-header {
+    background-color: #25d366;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Left Section of Header (Profile + Title) */
+.chat-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1; /* Allows text to take available space */
+}
+
+/* Profile Picture */
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Chat Title */
+.chat-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    flex-shrink: 0; /* Prevents text from shrinking */
+}
+
+/* Clear Chat Button */
+.clear-btn {
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    white-space: nowrap; /* Prevents button from breaking */
+}
+
+.clear-btn:hover {
+    background: darkred;
+}
+
+/* Chat Messages */
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background: url('./imgs/pc\ chating\ background.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ccc;
+    gap: 10px;
+}
+
+/* Input Field */
+.chat-input input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+/* File Upload */
+.file-upload input {
+    display: none;
+}
+
+.file-upload label {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* Buttons */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* for send icon */
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+}
+
+button i {
+    font-size: 20px;
+}
+/* for modal */
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #111;
+    padding: 20px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.attachment-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 15px;
+}
+
+.option {
+    background: #222;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.option:hover {
+    background: #333;
+    transform: scale(1.05);
+}
+
+.option i {
+    font-size: 30px;
+    color: #00aaff;
+}
+
+.option p {
+    margin-top: 5px;
+    font-size: 13px;
+    color: white;
+}
+.chat-container {
+    display: flex;
+    /* flex-direction: column; */
+    padding: 10px;
+    /* height: 400px; */
+    /* overflow-y: auto; */
+    /* background-color: #121212; */
+    /* color: white; */
+}
+
+/* Message container */
+.message {
+    padding: 10px;
+    align-items: center;
+    border-radius: 8px;
+    max-width: 70%;
+    word-wrap: break-word;
+    margin: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+}
+
+/* Sender (User1) Messages - Appear on the Right */
+.user1 {
+    align-self: flex-end;
+    background-color: #075E54; /* WhatsApp green */
+    color: white;
+}
+
+/* Receiver (User2) Messages - Appear on the Left */
+.user2 {
+    align-self: flex-start;
+    background-color: #202C33; /* WhatsApp grey */
+    color: white;
+}
+
+/* Message Footer (Time + Tick) */
+.message-footer {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 2.5px;
+    margin-left: 5px;
+}
+
+/* Tick Styling */
+.message-tick {
+    margin-left: 5px;
+    font-size: 10px;
+}
+
+/* Timestamp */
+.message-time {
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+/* Date Separator */
+.date-separator {
+    text-align: center;
+    background-color: #3A3B3C;
+    color: white;
+    padding: 5px 10px;
+    margin: 10px auto;
+    display: inline-block;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+

@@ -1,0 +1,317 @@
+document.addEventListener("DOMContentLoaded", () => {
+    loadMessages(); // Load messages on page load
+    document.getElementById("uploadModal").style.display = "none"; // Hide modal initially
+});
+
+// Function to send message
+function createMessageElement(user, text, imageUrl, timestamp, date, received) {
+    let messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", `user${user}`);
+
+    let messageContent = document.createElement("div");
+
+    if (imageUrl) {
+        let img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = "Sent Image";
+        img.style.maxWidth = "200px";
+        img.style.borderRadius = "8px";
+        messageContent.appendChild(img);
+    } else {
+        let textSpan = document.createElement("span");
+        textSpan.textContent = text;
+        messageContent.appendChild(textSpan);
+    }
+
+    let messageInfo = document.createElement("div");
+    messageInfo.classList.add("message-info");
+
+    let dateSpan = document.createElement("span");
+    dateSpan.classList.add("message-date");
+    dateSpan.textContent = date;
+
+    let timeSpan = document.createElement("span");
+    timeSpan.classList.add("message-time");
+    timeSpan.textContent = timestamp;
+
+    let tickSpan = document.createElement("span");
+    tickSpan.classList.add("ticks");
+    tickSpan.textContent = received ? "✔️✔️" : "✔️"; // Double tick for received messages
+
+    messageInfo.appendChild(dateSpan);
+    messageInfo.appendChild(timeSpan);
+    messageInfo.appendChild(tickSpan);
+
+    messageDiv.appendChild(messageContent);
+    messageDiv.appendChild(messageInfo);
+
+    return messageDiv;
+}
+
+// Create message element with timestamp & ticks
+
+function createMessageElement(user, text, imageUrl, timestamp, date, received) {
+    let messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", `user${user}`);
+
+    let messageContent = document.createElement("div");
+
+    if (imageUrl) {
+        let img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = "Sent Image";
+        img.style.maxWidth = "200px";
+        img.style.borderRadius = "8px";
+        messageContent.appendChild(img);
+    } else {
+        let textSpan = document.createElement("span");
+        textSpan.textContent = text;
+        messageContent.appendChild(textSpan);
+    }
+
+    let messageInfo = document.createElement("div");
+    messageInfo.classList.add("message-info");
+
+    let dateSpan = document.createElement("span");
+    dateSpan.classList.add("message-date");
+    dateSpan.textContent = date;
+
+    let timeSpan = document.createElement("span");
+    timeSpan.classList.add("message-time");
+    timeSpan.textContent = timestamp;
+
+    let tickSpan = document.createElement("span");
+    tickSpan.classList.add("ticks");
+    tickSpan.textContent = received ? "✔️✔️" : "✔️"; // Double tick for received messages
+
+    messageInfo.appendChild(dateSpan);
+    messageInfo.appendChild(timeSpan);
+    messageInfo.appendChild(tickSpan);
+
+    messageDiv.appendChild(messageContent);
+    messageDiv.appendChild(messageInfo);
+
+    return messageDiv;
+}
+
+
+
+// Upload image to Cloudinary
+async function uploadToCloudinary(file) {
+    let formData = new FormData();
+    formData.append("file", file);
+    
+    let response = await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData,
+    });
+
+    let data = await response.json();
+    return data.url; // Return Cloudinary image URL
+}
+
+
+// Save message to MongoDB
+async function saveMessageToDB(messageData) {
+    try {
+        let response = await fetch("http://localhost:5000/messages", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(messageData),
+        });
+
+        let data = await response.json();
+        console.log("Message saved:", data.message);
+    } catch (error) {
+        console.error("Error saving message:", error);
+    }
+}
+
+// Create message element
+function createMessageElement(user, text, imageUrl) {
+    let messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", `user${user}`);
+
+    if (text) {
+        messageDiv.textContent = text;
+    } else if (imageUrl) {
+        let img = document.createElement("img");
+        img.src = imageUrl;
+        img.style.maxWidth = "200px"; // Limit image size
+        messageDiv.appendChild(img);
+    }
+
+    return messageDiv;
+}
+
+// Load messages from MongoDB
+async function loadMessages() {
+    try {
+        let response = await fetch("http://localhost:5000/messages");
+        let messages = await response.json();
+
+        document.getElementById("messages1").innerHTML = "";
+        document.getElementById("messages2").innerHTML = "";
+
+        messages.forEach(msg => {
+            let messageDiv = createMessageElement(msg.user, msg.type === "text" ? msg.content : null, msg.type === "image" ? msg.content : null);
+            document.getElementById(`messages${msg.user}`).appendChild(messageDiv);
+        });
+    } catch (error) {
+        console.error("Failed to load messages:", error);
+    }
+}
+
+// Handle Enter key for sending messages
+document.getElementById("input1").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage(1);
+    }
+});
+document.getElementById("input2").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage(2);
+    }
+});
+
+// Open file selection modal
+function openModal(user) {
+    document.getElementById("uploadModal").style.display = "flex";
+    document.getElementById("uploadModal").setAttribute("data-user", user);
+}
+
+// Close modal
+function closeModal() {
+    document.getElementById("uploadModal").style.display = "none";
+}
+
+// Select file for upload
+function selectFile(type) {
+    let user = document.getElementById("uploadModal").getAttribute("data-user");
+    let fileInput = document.getElementById(`file${user}`);
+
+    if (type === "gallery" || type === "camera") {
+        fileInput.accept = "image/*";
+    } else if (type === "document") {
+        fileInput.accept = ".pdf,.doc,.docx,.txt";
+    } else if (type === "audio") {
+        fileInput.accept = "audio/*";
+    }
+
+    fileInput.click();
+    closeModal();
+}
+
+
+
+// for delete message both ui and database
+async function clearChat(chatboxId) {
+    let chatBox = document.getElementById(chatboxId);
+    let user = chatboxId === "messages1" ? 1 : 2;
+
+    // Collect all image URLs from messages
+    let images = Array.from(chatBox.querySelectorAll("img")).map(img => img.src);
+
+    // Clear messages from UI
+    chatBox.innerHTML = "";
+
+    // Delete messages from MongoDB
+    await deleteMessagesFromDB(user);
+
+    // Delete images from Cloudinary
+    for (let imageUrl of images) {
+        await deleteFromCloudinary(imageUrl);
+    }
+}
+
+// Delete messages from MongoDB
+async function deleteMessagesFromDB(user) {
+    try {
+        let response = await fetch(`http://localhost:5000/messages/${user}`, {
+            method: "DELETE",
+        });
+        let data = await response.json();
+        console.log("Messages deleted:", data);
+    } catch (error) {
+        console.error("Error deleting messages:", error);
+    }
+}
+
+// Delete image from Cloudinary
+async function deleteFromCloudinary(imageUrl) {
+    try {
+        let response = await fetch("http://localhost:5000/delete-image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ imageUrl }),
+        });
+
+        let data = await response.json();
+        console.log("Image deleted:", data);
+    } catch (error) {
+        console.error("Error deleting image:", error);
+    }
+}
+
+
+async function sendMessage(user) {
+    let input = document.getElementById(`input${user}`);
+    let fileInput = document.getElementById(`file${user}`);
+    let message = input.value.trim();
+    let file = fileInput.files[0];
+
+    if (!message && !file) return; // Prevent empty messages
+
+    let chatBox = document.getElementById(`messages${user}`);
+    let otherUser = user === 1 ? 2 : 1;
+    let otherChatBox = document.getElementById(`messages${otherUser}`);
+
+    let imageUrl = null;
+
+    // **Handle File Upload to Cloudinary**
+    if (file) {
+        try {
+            imageUrl = await uploadToCloudinary(file); // Upload the image
+        } catch (error) {
+            console.error("Image upload failed:", error);
+            return;
+        }
+    }
+
+    // **Generate Timestamp & Date**
+    let now = new Date();
+    let timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let date = now.toLocaleDateString([], { day: '2-digit', month: 'short', year: 'numeric' }); // Example: 16 Mar 2025
+
+    // **Prepare Message Object**
+    let messageData = {
+        user: user,
+        content: file ? imageUrl : message,
+        type: file ? "image" : "text",
+        timestamp: timestamp,
+        date: date
+    };
+
+    // **Append Sent Message to Chat**
+    let messageDiv = createMessageElement(user, message, imageUrl, timestamp, date, false);
+    chatBox.appendChild(messageDiv);
+
+    // **Simulate Receiving Message for Other User**
+    setTimeout(() => {
+        let receivedMessageDiv = createMessageElement(otherUser, message, imageUrl, timestamp, date, true);
+        otherChatBox.appendChild(receivedMessageDiv);
+    }, 1000);
+
+    // **Send Message to Backend**
+    try {
+        await saveMessageToDB(messageData);
+    } catch (error) {
+        console.error("Failed to save message to DB:", error);
+    }
+
+    // **Clear Input Fields**
+    input.value = "";
+    fileInput.value = "";
+}
