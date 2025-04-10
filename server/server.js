@@ -9,7 +9,12 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/chatapp", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://sanjaycw24:sanjay2001@cluster0.btkji.mongodb.net/chatapp", { 
+    useNewUrlParser: true,
+     useUnifiedTopology: true })
+
+.then(() => console.log("MongoDB connected successfully"))
+.catch(err => console.error("MongoDB connection error:", err));
 
 const MessageSchema = new mongoose.Schema({
     user: Number,
@@ -18,12 +23,11 @@ const MessageSchema = new mongoose.Schema({
 });
 
 const Message = mongoose.model("Message", MessageSchema);
-
-// Cloudinary Config
+// Cloudinary Configuration
 cloudinary.config({
-    cloud_name: "dxcgvxfl9",
-    api_key: "656552652158517",
-    api_secret: "IRqNNWC4WlPuAMHzJPBGKT9kgnY",
+  cloud_name: "dfvtklmnm",
+  api_key: "717559563742696",
+  api_secret: "_aCLynabbQ7rQRqcx7wj-OfJHjo",
 });
 
 // Multer Setup for File Uploads
