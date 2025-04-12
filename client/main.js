@@ -143,7 +143,7 @@ async function uploadToCloudinary(file) {
     let formData = new FormData();
     formData.append("file", file);
     
-    let response = await fetch("http://localhost:5000/upload", {
+    let response = await fetch("https://pc-chating-api.vercel.app", {
         method: "POST",
         body: formData,
     });
@@ -155,7 +155,7 @@ async function uploadToCloudinary(file) {
 // Save message to MongoDB
 async function saveMessageToDB(messageData) {
     try {
-        let response = await fetch("http://localhost:5000/messages", {
+        let response = await fetch("https://pc-chating-api.vercel.app", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(messageData),
@@ -230,7 +230,7 @@ function createMessageElement(user, text, imageUrl, status = "sent") {
 // Load messages from MongoDB
 async function loadMessages() {
     try {
-        let response = await fetch("http://localhost:5000/messages");
+        let response = await fetch("https://pc-chating-api.vercel.app");
         let messages = await response.json();
 
         document.getElementById("messages1").innerHTML = "";
@@ -312,7 +312,7 @@ async function clearChat(chatboxId) {
 // Delete messages from MongoDB
 async function deleteMessagesFromDB(user) {
     try {
-        let response = await fetch(`http://localhost:5000/messages/${user}`, {
+        let response = await fetch(`https://pc-chating-api.vercel.app${user}`, {
             method: "DELETE",
         });
         let data = await response.json();
@@ -325,7 +325,7 @@ async function deleteMessagesFromDB(user) {
 // Delete image from Cloudinary
 async function deleteFromCloudinary(imageUrl) {
     try {
-        let response = await fetch("http://localhost:5000/delete-image", {
+        let response = await fetch("https://pc-chating-api.vercel.app/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ imageUrl }),
